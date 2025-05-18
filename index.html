@@ -1,50 +1,21 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>DIZ FLYZE - HD Enhancer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>HD Enhancer</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: sans-serif;
-      background-color: #050816;
+      background: #000;
       color: #fff;
+      font-family: 'Segoe UI', sans-serif;
       overflow: hidden;
-      -webkit-user-select: none;
-      -ms-user-select: none;
       user-select: none;
+    }
+    * {
       -webkit-tap-highlight-color: transparent;
-      touch-action: none;
-      position: fixed;
-      width: 100%;
-      height: 100%;
-    }
-    *, *:before, *:after {
-      box-sizing: inherit;
-    }
-    .loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #050816;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      z-index: 9999;
-      animation: fadeOut 1s ease 3s forwards;
-    }
-    @keyframes fadeOut {
-      to { opacity: 0; visibility: hidden; }
-    }
-    @keyframes dropIn {
-      from { transform: translateY(-100px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      box-sizing: border-box;
     }
     .container {
       display: flex;
@@ -52,185 +23,125 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      padding: 20px;
       text-align: center;
-      animation: dropIn 1s ease-in-out;
+      animation: fadeInDown 1s ease-in-out;
     }
-    .logo {
-      border: 2px solid #fff;
-      padding: 10px 30px;
-      margin-bottom: 30px;
-      font-size: 28px;
-      font-weight: bold;
-      letter-spacing: 4px;
-      animation: dropIn 0.8s ease-in-out;
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
     }
-    .buttons {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: dropIn 1s ease-in-out;
-    }
-    .buttons button {
-      background: none;
-      border: 2px solid #fff;
-      color: #fff;
-      padding: 12px 16px;
-      font-size: 14px;
-      cursor: pointer;
-      min-width: 100px;
-      transition: all 0.3s ease-in-out;
-    }
-    .buttons button:hover {
-      background: #fff;
-      color: #000;
-      box-shadow: 0 0 10px #fff;
-    }
-    .preview-box {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      animation: dropIn 1.2s ease-in-out;
-    }
-    .preview-box div {
-      text-align: center;
-    }
-    .preview-box img {
-      max-width: 120px;
-      height: auto;
-      border: 1px solid #fff;
-    }
-    .upload {
-      margin-bottom: 20px;
-      animation: dropIn 1s ease-in-out;
-    }
-    .upload input[type="file"] {
-      color: #fff;
-      background: none;
-      border: 1px solid #fff;
-      padding: 8px;
-    }
-    .donate a {
-      border: 2px solid #fff;
-      padding: 10px 30px;
-      text-decoration: none;
-      color: #fff;
-      display: inline-block;
-      margin-top: 20px;
-      animation: dropIn 1.4s ease-in-out;
-    }
-    .donate a:hover {
-      background: #fff;
-      color: #000;
-    }
-    #progressBar {
-      width: 80%;
-      height: 6px;
-      background: #222;
-      margin: 10px auto;
-      border-radius: 6px;
-      overflow: hidden;
+    input[type="file"] {
       display: none;
     }
-    #progressBarInner {
+    label.upload {
+      background: #222;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
+    .buttons button {
+      margin: 6px;
+      padding: 12px 20px;
+      background: #111;
+      color: #fff;
+      border: 1px solid #333;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .progress {
+      width: 80%;
+      height: 12px;
+      background: #333;
+      margin-top: 1rem;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .bar {
+      width: 0%;
       height: 100%;
-      width: 0;
-      background: #fff;
-      transition: width 0.4s ease;
+      background: white;
+      transition: width 0.3s;
+    }
+    img {
+      max-width: 80vw;
+      max-height: 40vh;
+      margin: 10px 0;
+      border-radius: 10px;
+    }
+    .donate {
+      margin-top: 1rem;
+      background: #111;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      animation: fadeOut 1s 2s forwards;
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+    @keyframes fadeInDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <div class="loader" id="loader">Meningkatkan kualitas gambar...</div>  <div class="container" id="mainContent" style="display:none;">
-    <div class="logo">DIZ FLYZE</div><div class="upload">
-  <input type="file" id="fileInput" accept="image/*">
-</div>
-
-<div class="buttons">
-  <button onclick="processImage('4k')">4K RESOLUSI</button>
-  <button onclick="processImage('2k')">2K RESOLUSI</button>
-  <button onclick="processImage('ultra')">ULTRA HD</button>
-</div>
-
-<div id="progressBar">
-  <div id="progressBarInner"></div>
-</div>
-
-<div class="preview-box" id="previewBox">
-  <div>
-    <p>Sebelum</p>
-    <img id="beforeImg" src="" alt="Before" />
+<div class="loader">Loading...</div>
+<div class="container">
+  <h1>HD Image Enhancer</h1>
+  <label class="upload" for="fileInput">Upload Gambar</label>
+  <input type="file" id="fileInput" accept="image/jpeg,image/png">
+  <div class="buttons">
+    <button onclick="process('4k')">4K</button>
+    <button onclick="process('2k')">2K</button>
+    <button onclick="process('ultra')">Ultra HD</button>
   </div>
-  <div>
-    <p>Sesudah</p>
-    <img id="afterImg" src="" alt="After" />
-  </div>
+  <img id="beforeImg" src="" alt="Sebelum" style="display:none">
+  <img id="afterImg" src="" alt="Sesudah" style="display:none">
+  <div class="progress"><div class="bar" id="bar"></div></div>
+  <a class="donate" href="https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012092025051828586055" target="_blank">Donasi Dana</a>
 </div>
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const beforeImg = document.getElementById('beforeImg');
+  const afterImg = document.getElementById('afterImg');
+  const bar = document.getElementById('bar');
+  let renamedFile = null;fileInput.addEventListener('change', () => { const file = fileInput.files[0]; if (!file) return; const validTypes = ['image/jpeg', 'image/png']; if (!validTypes.includes(file.type)) { alert('Format gambar tidak didukung. Hanya JPG dan PNG'); return; } const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); const newName = img-${timestamp}.jpg; renamedFile = new File([file], newName, { type: file.type }); beforeImg.src = URL.createObjectURL(renamedFile); beforeImg.style.display = 'block'; });
 
-<div class="donate">
-  <a href="https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012092025051828586055" target="_blank">KASIH SAYA KOPI</a>
-</div>
+function process(mode) { if (!renamedFile) return alert('Upload gambar dulu bro'); let api = 'https://api.deepai.org/api/waifu2x'; if (mode === 'ultra') api = 'https://api.deepai.org/api/waifu2x'; const form = new FormData(); form.append('image', renamedFile); bar.style.width = '10%';
 
-  </div>  <script>
-    window.onload = function () {
-      setTimeout(() => {
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("mainContent").style.display = "flex";
-      }, 3000);
-    }
+fetch(api, {
+  method: 'POST',
+  headers: { 'api-key': 'd65ffd81-3332-4bdc-8b4c-92d09f450575' },
+  body: form
+})
+.then(res => res.json())
+.then(data => {
+  if (!data.output_url) throw new Error('Gagal memperbaiki gambar');
+  bar.style.width = '100%';
+  afterImg.src = data.output_url;
+  afterImg.style.display = 'block';
+})
+.catch(err => {
+  bar.style.width = '0%';
+  alert('Gagal proses: ' + err.message);
+});
 
-    const beforeImg = document.getElementById('beforeImg');
-    const afterImg = document.getElementById('afterImg');
-    const fileInput = document.getElementById('fileInput');
-    const progressBar = document.getElementById('progressBar');
-    const progressBarInner = document.getElementById('progressBarInner');
+} </script>
 
-    function processImage(mode) {
-      const file = fileInput.files[0];
-      if (!file) return alert("Pilih gambar dulu bro!");
-
-      beforeImg.src = URL.createObjectURL(file);
-      const formData = new FormData();
-      formData.append("image", file);
-
-      let api = "https://api.deepai.org/api/torch-srgan";
-      if (mode === '2k') api = "https://api.deepai.org/api/waifu2x";
-      if (mode === 'ultra') api = "https://api.deepai.org/api/fast-style-transfer";
-
-      progressBar.style.display = 'block';
-      progressBarInner.style.width = '0%';
-
-      let progress = 0;
-      let progressInterval = setInterval(() => {
-        if (progress < 90) {
-          progress += 5;
-          progressBarInner.style.width = progress + '%';
-        }
-      }, 200);
-
-      fetch(api, {
-        method: "POST",
-        headers: { "api-key": "d65ffd81-3332-4bdc-8b4c-92d09f450575" },
-        body: formData
-      })
-      .then(res => res.json())
-      .then(data => {
-        clearInterval(progressInterval);
-        progressBarInner.style.width = '100%';
-        setTimeout(() => progressBar.style.display = 'none', 500);
-        if (data.output_url) afterImg.src = data.output_url;
-        else alert("Gagal memperbaiki gambar.");
-      })
-      .catch(() => {
-        clearInterval(progressInterval);
-        progressBar.style.display = 'none';
-        alert("Gagal memproses gambar.");
-      });
-    }
-  </script></body>
-                                       </html>
+</body>
+</html>
