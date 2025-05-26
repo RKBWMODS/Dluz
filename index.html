@@ -1,147 +1,87 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>HD Enhancer</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #000;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-      overflow: hidden;
-      user-select: none;
-    }
-    * {
-      -webkit-tap-highlight-color: transparent;
-      box-sizing: border-box;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-      animation: fadeInDown 1s ease-in-out;
-    }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    input[type="file"] {
-      display: none;
-    }
-    label.upload {
-      background: #222;
-      padding: 12px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-bottom: 1rem;
-    }
-    .buttons button {
-      margin: 6px;
-      padding: 12px 20px;
-      background: #111;
-      color: #fff;
-      border: 1px solid #333;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .progress {
-      width: 80%;
-      height: 12px;
-      background: #333;
-      margin-top: 1rem;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-    .bar {
-      width: 0%;
-      height: 100%;
-      background: white;
-      transition: width 0.3s;
-    }
-    img {
-      max-width: 80vw;
-      max-height: 40vh;
-      margin: 10px 0;
-      border-radius: 10px;
-    }
-    .donate {
-      margin-top: 1rem;
-      background: #111;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 12px;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .loader {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #000;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      animation: fadeOut 1s 2s forwards;
-    }
-    @keyframes fadeOut {
-      to { opacity: 0; visibility: hidden; }
-    }
-    @keyframes fadeInDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-  </style>
+    <title>🛡️ DStat Attack Monitor</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #111;
+            color: #0f0;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .dashboard {
+            border: 1px solid #333;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .stat {
+            margin: 10px 0;
+        }
+        .highlight {
+            color: #ff0;
+            font-weight: bold;
+        }
+        button {
+            background: #333;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        #targetUrl {
+            width: 100%;
+            padding: 5px;
+            background: #222;
+            color: #0f0;
+            border: 1px solid #333;
+        }
+    </style>
 </head>
 <body>
-<div class="loader">Loading...</div>
-<div class="container">
-  <h1>HD Image Enhancer</h1>
-  <label class="upload" for="fileInput">Upload Gambar</label>
-  <input type="file" id="fileInput" accept="image/jpeg,image/png">
-  <div class="buttons">
-    <button onclick="process('4k')">4K</button>
-    <button onclick="process('2k')">2K</button>
-    <button onclick="process('ultra')">Ultra HD</button>
-  </div>
-  <img id="beforeImg" src="" alt="Sebelum" style="display:none">
-  <img id="afterImg" src="" alt="Sesudah" style="display:none">
-  <div class="progress"><div class="bar" id="bar"></div></div>
-  <a class="donate" href="https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012092025051828586055" target="_blank">Donasi Dana</a>
-</div>
-<script>
-  const fileInput = document.getElementById('fileInput');
-  const beforeImg = document.getElementById('beforeImg');
-  const afterImg = document.getElementById('afterImg');
-  const bar = document.getElementById('bar');
-  let renamedFile = null;fileInput.addEventListener('change', () => { const file = fileInput.files[0]; if (!file) return; const validTypes = ['image/jpeg', 'image/png']; if (!validTypes.includes(file.type)) { alert('Format gambar tidak didukung. Hanya JPG dan PNG'); return; } const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); const newName = img-${timestamp}.jpg; renamedFile = new File([file], newName, { type: file.type }); beforeImg.src = URL.createObjectURL(renamedFile); beforeImg.style.display = 'block'; });
+    <h1>🛡️ DStat Attack Monitor</h1>
+    
+    <div class="dashboard">
+        <div class="stat">Total Requests: <span id="totalRequests">0</span></div>
+        <div class="stat">Blocked: <span id="blocked">0</span></div>
+        <div class="stat">Bypass Attempts: <span id="bypass">0</span></div>
+        <div class="stat">Proxy IPs: <span id="proxies">0</span></div>
+        <div class="stat">Requests/Sec: <span id="rps">0.00</span></div>
+        <div class="stat">Uptime: <span id="uptime">0s</span></div>
+        
+        <div class="stat">
+            <h3>Target URL:</h3>
+            <input type="text" id="targetUrl" readonly>
+            <button onclick="copyTargetUrl()">Copy Link</button>
+        </div>
+    </div>
 
-function process(mode) { if (!renamedFile) return alert('Upload gambar dulu bro'); let api = 'https://api.deepai.org/api/waifu2x'; if (mode === 'ultra') api = 'https://api.deepai.org/api/waifu2x'; const form = new FormData(); form.append('image', renamedFile); bar.style.width = '10%';
+    <script>
+        function updateStats() {
+            fetch('/api/stats')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalRequests').textContent = data.total_requests;
+                    document.getElementById('blocked').textContent = data.blocked;
+                    document.getElementById('bypass').textContent = data.bypass_attempts;
+                    document.getElementById('proxies').textContent = data.proxy_count;
+                    document.getElementById('rps').textContent = data.rps;
+                    document.getElementById('uptime').textContent = data.uptime;
+                    document.getElementById('targetUrl').value = data.target_url;
+                });
+        }
 
-fetch(api, {
-  method: 'POST',
-  headers: { 'api-key': 'd65ffd81-3332-4bdc-8b4c-92d09f450575' },
-  body: form
-})
-.then(res => res.json())
-.then(data => {
-  if (!data.output_url) throw new Error('Gagal memperbaiki gambar');
-  bar.style.width = '100%';
-  afterImg.src = data.output_url;
-  afterImg.style.display = 'block';
-})
-.catch(err => {
-  bar.style.width = '0%';
-  alert('Gagal proses: ' + err.message);
-});
+        function copyTargetUrl() {
+            const urlInput = document.getElementById('targetUrl');
+            urlInput.select();
+            document.execCommand('copy');
+            alert('URL copied to clipboard!');
+        }
 
-} </script>
-
+        // Update every second
+        setInterval(updateStats, 1000);
+        updateStats();
+    </script>
 </body>
 </html>
